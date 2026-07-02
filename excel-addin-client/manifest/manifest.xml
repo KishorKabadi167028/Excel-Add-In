@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:type="TaskPaneApp">
+  <Id>12345678-1234-1234-1234-1234567890ab</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Example</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Excel Add-in Starter"/>
+  <Description DefaultValue="Starter Excel Add-in with React task pane"/>
+  <Hosts>
+    <Host Name="Workbook"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:5173/" />
+  </DefaultSettings>
+  <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.0">
+    <VersionOverride xsi:type="VersionOverrideV1_0" Version="1.0.0.0">
+      <Hosts>
+        <Host xsi:type="Workbook">
+          <DesktopFormFactor>
+            <FunctionFile resid="Taskpane.Url" />
+            <ExtensionPoint xsi:type="PrimaryCommandSurface">
+              <CustomTab id="TabCustom">
+                <Group id="Group1" label="Example Group">
+                  <Control xsi:type="Button" id="ButtonOpenTaskPane">
+                    <Label resid="OpenTaskPane.Label" />
+                    <Supertip>
+                      <Title resid="OpenTaskPane.Title" />
+                      <Description resid="OpenTaskPane.Desc" />
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16" />
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <TaskpaneId>ButtonOpenTaskPanePane</TaskpaneId>
+                      <SourceLocation resid="Taskpane.Url" />
+                    </Action>
+                  </Control>
+                </Group>
+              </CustomTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <bt:Image id="Icon.16" DefaultValue="https://via.placeholder.com/16" />
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:5173/" />
+          <bt:Url id="FunctionFile.Url" DefaultValue="https://localhost:5173/" />
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="OpenTaskPane.Label" DefaultValue="Open" />
+          <bt:String id="OpenTaskPane.Title" DefaultValue="Open Task Pane" />
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="OpenTaskPane.Desc" DefaultValue="Open the task pane" />
+        </bt:LongStrings>
+      </Resources>
+    </VersionOverride>
+  </VersionOverrides>
+</OfficeApp>

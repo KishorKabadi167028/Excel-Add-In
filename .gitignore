@@ -1,0 +1,10 @@
+.DS_Store
+node_modules/
+excel-addin-client/dist/
+excel-addin-client/node_modules/
+**/bin/
+**/obj/
+.vscode/
+.env.local
+.env
+logs/

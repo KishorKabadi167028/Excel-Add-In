@@ -1,0 +1,25 @@
+{
+  "name": "excel-addin-client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "office-js": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@types/office-js": "^1.0.2",
+    "typescript": "^4.9.5",
+    "vite": "^4.3.9",
+    "@vitejs/plugin-react": "^3.1.0"
+  }
+}
