@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import { readRange, writeRange, importTableToJson } from '../services/excelService'
-import { postImport, getExport } from '../services/api'
-
-type ExportRow = { name?: string; createdAt?: string }
+import { postImport, getExport, type ExportRow } from '../services/api'
 
 export default function TaskPane(){
   const [logs, setLogs] = useState<string[]>([])
@@ -34,20 +32,45 @@ export default function TaskPane(){
     }catch(e:any){ append('Import error: ' + (e?.message || e)) }
   }
 
+  // helper: convert 1 -> A, 27 -> AA
+  const colLetterFromIndex = (index: number) => {
+    let col = ''
+    let i = index
+    while (i > 0) {
+      const rem = (i - 1) % 26
+      col = String.fromCharCode(65 + rem) + col
+      i = Math.floor((i - 1) / 26)
+    }
+    return col
+  }
+
   const onExport = async () => {
     try{
-      const rows = (await getExport()) as ExportRow[]
+      const rows = await getExport()
       if (!rows || rows.length === 0) {
         append('No rows returned from API')
         return
       }
 
-      // Build values: header + data rows (ensure consistent columns)
+      // Header based on keys (keeps column order stable)
       const header = Object.keys(rows[0] || {})
-      const dataRows = rows.map((r: ExportRow) => [r.name ?? '', r.createdAt ? new Date(r.createdAt).toLocaleString() : ''])
 
-      // write to sheet starting at A20
-      await writeRange('A20:C' + (20 + dataRows.length), [header, ...dataRows])
+      // Map rows to data arrays matching header columns
+      const dataRows = rows.map((r: ExportRow) => header.map(h => {
+        const v = (r as any)[h]
+        if (v == null) return ''
+        if (h.toLowerCase().includes('date')) return new Date(v).toLocaleString()
+        return String(v)
+      }))
+
+      const startRow = 20
+      const totalRows = 1 + dataRows.length // header + data
+      const endRow = startRow + totalRows - 1
+      const endColIndex = header.length
+      const endColLetter = colLetterFromIndex(endColIndex)
+      const rangeAddr = `A${startRow}:${endColLetter}${endRow}`
+
+      await writeRange(rangeAddr, [header, ...dataRows])
       append('Exported ' + rows.length + ' rows to sheet')
     }catch(e:any){ append('Export error: ' + (e?.message || e)) }
   }
