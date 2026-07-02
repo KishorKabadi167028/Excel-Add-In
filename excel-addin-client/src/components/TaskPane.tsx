@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { readRange, writeRange, importTableToJson } from '../services/excelService'
 import { postImport, getExport } from '../services/api'
 
+type ExportRow = { name?: string; createdAt?: string }
+
 export default function TaskPane(){
   const [logs, setLogs] = useState<string[]>([])
 
@@ -34,9 +36,18 @@ export default function TaskPane(){
 
   const onExport = async () => {
     try{
-      const rows = await getExport()
-      // write to sheet
-      await writeRange('A20:C' + (20 + rows.length), [Object.keys(rows[0]||{}), ...rows.map(r=>[r.name, new Date(r.createdAt).toLocaleString()])])
+      const rows = (await getExport()) as ExportRow[]
+      if (!rows || rows.length === 0) {
+        append('No rows returned from API')
+        return
+      }
+
+      // Build values: header + data rows (ensure consistent columns)
+      const header = Object.keys(rows[0] || {})
+      const dataRows = rows.map((r: ExportRow) => [r.name ?? '', r.createdAt ? new Date(r.createdAt).toLocaleString() : ''])
+
+      // write to sheet starting at A20
+      await writeRange('A20:C' + (20 + dataRows.length), [header, ...dataRows])
       append('Exported ' + rows.length + ' rows to sheet')
     }catch(e:any){ append('Export error: ' + (e?.message || e)) }
   }
