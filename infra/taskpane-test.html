@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Add-in Task Pane - Test</title>
+    <style>
+        body {
+            font-family: Segoe UI, Arial, sans-serif;
+            margin: 0;
+            padding: 12px;
+            background: #f5f5f5;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        button {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .log-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .log-entry {
+            color: #333;
+            padding: 2px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .log-error {
+            color: #d32f2f;
+        }
+        .log-success {
+            color: #388e3c;
+        }
+        .log-info {
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Excel Add-in Task Pane - Test</h2>
+    <p><strong>Local Test Mode:</strong> This is a standalone HTML test file. It simulates the task pane UI for development.</p>
+    
+    <div class="button-group">
+        <button onclick="simulateRead()">📖 Read A1:C5</button>
+        <button onclick="simulateWrite()">✏️ Write A10:C12</button>
+        <button onclick="simulateImport()">📤 Import Table1 → API</button>
+        <button onclick="simulateExport()">📥 Export API → Sheet</button>
+        <button onclick="clearLogs()">🗑️ Clear Logs</button>
+    </div>
+
+    <h3>Settings</h3>
+    <div style="margin-bottom: 12px;">
+        <label for="apiUrl">API Base URL:</label>
+        <input type="text" id="apiUrl" value="https://localhost:5001" style="width: 300px; padding: 6px;">
+        <button onclick="saveSettings()">Save</button>
+    </div>
+
+    <h3>Activity Log</h3>
+    <div class="log-container" id="logContainer"></div>
+
+    <script>
+        // Simulate Office.js availability
+        window.Excel = {
+            run: async (callback) => {
+                return await callback({ workbook: { worksheets: { getActiveWorksheet: () => {} } } });
+            }
+        };
+
+        const getApiUrl = () => localStorage.getItem('apiUrl') || 'https://localhost:5001';
+        const logs = [];
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = `[${timestamp}] ${message}`;
+            logs.unshift(entry);
+            renderLogs();
+            console.log(entry);
+        }
+
+        function renderLogs() {
+            const container = document.getElementById('logContainer');
+            container.innerHTML = logs
+                .slice(0, 50)
+                .map((l, i) => `<div class="log-entry">${l}</div>`)
+                .join('');
+        }
+
+        function clearLogs() {
+            logs.length = 0;
+            renderLogs();
+            log('Logs cleared', 'info');
+        }
+
+        function saveSettings() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            localStorage.setItem('apiUrl', apiUrl);
+            log(`Settings saved. API URL: ${apiUrl}`, 'success');
+        }
+
+        function simulateRead() {
+            log('Reading range A1:C5...', 'info');
+            setTimeout(() => {
+                const mockData = [
+                    ['Header 1', 'Header 2', 'Header 3'],
+                    ['Value 1', 'Value 2', 'Value 3'],
+                    ['Value 4', 'Value 5', 'Value 6']
+                ];
+                log(`Read: ${JSON.stringify(mockData)}`, 'success');
+            }, 500);
+        }
+
+        function simulateWrite() {
+            log('Writing to A10:C12...', 'info');
+            setTimeout(() => {
+                log('Write complete: [["One", "Two", "Three"], [1, 2, 3]]', 'success');
+            }, 500);
+        }
+
+        function simulateImport() {
+            log('Importing Table1...', 'info');
+            setTimeout(() => {
+                const mockTableData = [
+                    { Name: 'Item 1', Quantity: 10 },
+                    { Name: 'Item 2', Quantity: 20 }
+                ];
+                log(`Imported table rows: ${mockTableData.length}`, 'success');
+                
+                // Simulate API call
+                log('Posting to API: POST /api/data/import', 'info');
+                simulateApiCall('POST', '/api/data/import', mockTableData);
+            }, 800);
+        }
+
+        function simulateExport() {
+            log('Fetching from API: GET /api/data/export', 'info');
+            setTimeout(() => {
+                const mockData = [
+                    { id: 1, name: 'Record 1', createdAt: new Date().toISOString() },
+                    { id: 2, name: 'Record 2', createdAt: new Date().toISOString() }
+                ];
+                log(`Exported ${mockData.length} rows from API`, 'success');
+                log(`Writing to sheet: A20:C${20 + mockData.length}`, 'info');
+                setTimeout(() => {
+                    log('Export complete: data written to worksheet', 'success');
+                }, 300);
+            }, 600);
+        }
+
+        function simulateApiCall(method, endpoint, data) {
+            const apiUrl = getApiUrl();
+            const fullUrl = `${apiUrl}${endpoint}`;
+            log(`${method} ${fullUrl}`, 'info');
+            setTimeout(() => {
+                // Simulate network latency and response
+                log(`Response: 200 OK`, 'success');
+                log(`Server imported: ${JSON.stringify({ inserted: data.length || 1 })}`, 'success');
+            }, 1000);
+        }
+
+        // Initialize
+        document.getElementById('apiUrl').value = getApiUrl();
+        log('Task Pane Loaded (Test Mode)', 'success');
+        log('Click buttons above to simulate Excel operations', 'info');
+    </script>
+</body>
+</html>

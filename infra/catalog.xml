@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionList xmlns="http://schemas.microsoft.com/office/appforoffice/1.1">
+  <Extension ID="12345678-1234-1234-1234-1234567890ab" Version="1.0.0.0">
+    <ProviderName>Excel Add-in Starter</ProviderName>
+    <SourceLocation DefaultValue="https://localhost:5173/"/>
+  </Extension>
+</ExtensionList>
