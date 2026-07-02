@@ -61,6 +61,12 @@
         .log-info {
             color: #1976d2;
         }
+        .settings {
+            background: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -75,8 +81,8 @@
         <button onclick="clearLogs()">🗑️ Clear Logs</button>
     </div>
 
-    <h3>Settings</h3>
-    <div style="margin-bottom: 12px;">
+    <div class="settings">
+        <h3 style="margin-top: 0;">Settings</h3>
         <label for="apiUrl">API Base URL:</label>
         <input type="text" id="apiUrl" value="https://localhost:5001" style="width: 300px; padding: 6px;">
         <button onclick="saveSettings()">Save</button>
