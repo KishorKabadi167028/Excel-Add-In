@@ -4,7 +4,7 @@
            xsi:type="TaskPaneApp">
   <Id>12345678-1234-1234-1234-1234567890ab</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Example</ProviderName>
+  <ProviderName>Excel Add-in Starter</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Excel Add-in Starter"/>
   <Description DefaultValue="Starter Excel Add-in with React task pane"/>
@@ -12,30 +12,36 @@
     <Host Name="Workbook"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="http://localhost:5173/" />
+    <SourceLocation DefaultValue="http://localhost:5173/index.html"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.0">
-    <VersionOverride xsi:type="VersionOverrideV1_0" Version="1.0.0.0">
+  
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="VersionOverridesV1_0">
+    <VersionOverride Version="1.0.0.0" xsi:type="VersionOverrideV1_0">
       <Hosts>
         <Host xsi:type="Workbook">
           <DesktopFormFactor>
-            <FunctionFile resid="Taskpane.Url" />
+            <FunctionFile resid="Commands.Url"/>
             <ExtensionPoint xsi:type="PrimaryCommandSurface">
               <CustomTab id="TabCustom">
-                <Group id="Group1" label="Example Group">
-                  <Control xsi:type="Button" id="ButtonOpenTaskPane">
-                    <Label resid="OpenTaskPane.Label" />
-                    <Supertip>
-                      <Title resid="OpenTaskPane.Title" />
-                      <Description resid="OpenTaskPane.Desc" />
-                    </Supertip>
+                <Label resid="CustomTab.Label"/>
+                <Group id="Group1">
+                  <Label resid="Group1.Label"/>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Control xsi:type="Button" id="OpenTaskPaneButton">
+                    <Label resid="OpenTaskPaneButton.Label"/>
                     <Icon>
-                      <bt:Image size="16" resid="Icon.16" />
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
                     </Icon>
                     <Action xsi:type="ShowTaskpane">
-                      <TaskpaneId>ButtonOpenTaskPanePane</TaskpaneId>
-                      <SourceLocation resid="Taskpane.Url" />
+                      <TaskpaneId>TaskPaneId</TaskpaneId>
+                      <SourceLocation resid="TaskPane.Url"/>
                     </Action>
                   </Control>
                 </Group>
@@ -46,18 +52,21 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="Icon.16" DefaultValue="https://via.placeholder.com/16" />
+          <bt:Image id="Icon.16x16" DefaultValue="https://via.placeholder.com/16/0078d4/ffffff?text=+"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://via.placeholder.com/32/0078d4/ffffff?text=+"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://via.placeholder.com/80/0078d4/ffffff?text=+"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="Taskpane.Url" DefaultValue="http://localhost:5173/" />
-          <bt:Url id="FunctionFile.Url" DefaultValue="http://localhost:5173/" />
+          <bt:Url id="Commands.Url" DefaultValue="http://localhost:5173/index.html"/>
+          <bt:Url id="TaskPane.Url" DefaultValue="http://localhost:5173/index.html"/>
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="OpenTaskPane.Label" DefaultValue="Open" />
-          <bt:String id="OpenTaskPane.Title" DefaultValue="Open Task Pane" />
+          <bt:String id="CustomTab.Label" DefaultValue="Add-in"/>
+          <bt:String id="Group1.Label" DefaultValue="Actions"/>
+          <bt:String id="OpenTaskPaneButton.Label" DefaultValue="Show Task Pane"/>
         </bt:ShortStrings>
         <bt:LongStrings>
-          <bt:String id="OpenTaskPane.Desc" DefaultValue="Open the task pane" />
+          <bt:String id="OpenTaskPaneButton.Label" DefaultValue="Click to show the task pane"/>
         </bt:LongStrings>
       </Resources>
     </VersionOverride>
