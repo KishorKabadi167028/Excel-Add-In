@@ -12,7 +12,7 @@
     <Host Name="Workbook"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="http://localhost:5173/" />
+    <SourceLocation DefaultValue="http://localhost:5173/taskpane.html"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   
@@ -21,6 +21,7 @@
       <Hosts>
         <Host xsi:type="Workbook">
           <DesktopFormFactor>
+            <FunctionFile resid="Commands.Url"/>
             <ExtensionPoint xsi:type="PrimaryCommandSurface">
               <CustomTab id="TabCustom">
                 <Label resid="CustomTab.Label"/>
@@ -31,8 +32,8 @@
                     <bt:Image size="32" resid="Icon.32x32"/>
                     <bt:Image size="80" resid="Icon.80x80"/>
                   </Icon>
-                  <Control xsi:type="Button" id="TaskPaneButton">
-                    <Label resid="TaskPaneButton.Label"/>
+                  <Control xsi:type="Button" id="OpenTaskPaneButton">
+                    <Label resid="OpenTaskPaneButton.Label"/>
                     <Icon>
                       <bt:Image size="16" resid="Icon.16x16"/>
                       <bt:Image size="32" resid="Icon.32x32"/>
@@ -56,15 +57,16 @@
           <bt:Image id="Icon.80x80" DefaultValue="https://via.placeholder.com/80/0078d4/ffffff?text=+"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="TaskPane.Url" DefaultValue="http://localhost:5173/"/>
+          <bt:Url id="Commands.Url" DefaultValue="http://localhost:5173/taskpane.html"/>
+          <bt:Url id="TaskPane.Url" DefaultValue="http://localhost:5173/taskpane.html"/>
         </bt:Urls>
         <bt:ShortStrings>
           <bt:String id="CustomTab.Label" DefaultValue="Add-in"/>
           <bt:String id="Group1.Label" DefaultValue="Actions"/>
-          <bt:String id="TaskPaneButton.Label" DefaultValue="Open Task Pane"/>
+          <bt:String id="OpenTaskPaneButton.Label" DefaultValue="Show Task Pane"/>
         </bt:ShortStrings>
         <bt:LongStrings>
-          <bt:String id="TaskPaneButton.Label" DefaultValue="Open the Task Pane"/>
+          <bt:String id="OpenTaskPaneButton.Label" DefaultValue="Click to show the task pane"/>
         </bt:LongStrings>
       </Resources>
     </VersionOverride>
