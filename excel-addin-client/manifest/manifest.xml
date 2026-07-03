@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/appforoffice/1.1/taskpaneapp"
            xsi:type="TaskPaneApp">
   <Id>12345678-1234-1234-1234-1234567890ab</Id>
   <Version>1.0.0.0</Version>
@@ -16,7 +17,7 @@
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="VersionOverridesV1_0">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
     <VersionOverride Version="1.0.0.0" xsi:type="VersionOverrideV1_0">
       <Hosts>
         <Host xsi:type="Workbook">
@@ -27,18 +28,8 @@
                 <Label resid="CustomTab.Label"/>
                 <Group id="Group1">
                   <Label resid="Group1.Label"/>
-                  <Icon>
-                    <bt:Image size="16" resid="Icon.16x16"/>
-                    <bt:Image size="32" resid="Icon.32x32"/>
-                    <bt:Image size="80" resid="Icon.80x80"/>
-                  </Icon>
                   <Control xsi:type="Button" id="OpenTaskPaneButton">
                     <Label resid="OpenTaskPaneButton.Label"/>
-                    <Icon>
-                      <bt:Image size="16" resid="Icon.16x16"/>
-                      <bt:Image size="32" resid="Icon.32x32"/>
-                      <bt:Image size="80" resid="Icon.80x80"/>
-                    </Icon>
                     <Action xsi:type="ShowTaskpane">
                       <TaskpaneId>TaskPaneId</TaskpaneId>
                       <SourceLocation resid="TaskPane.Url"/>
@@ -51,11 +42,6 @@
         </Host>
       </Hosts>
       <Resources>
-        <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://via.placeholder.com/16/0078d4/ffffff?text=+"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://via.placeholder.com/32/0078d4/ffffff?text=+"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://via.placeholder.com/80/0078d4/ffffff?text=+"/>
-        </bt:Images>
         <bt:Urls>
           <bt:Url id="Commands.Url" DefaultValue="http://localhost:5173/index.html"/>
           <bt:Url id="TaskPane.Url" DefaultValue="http://localhost:5173/index.html"/>
@@ -65,9 +51,6 @@
           <bt:String id="Group1.Label" DefaultValue="Actions"/>
           <bt:String id="OpenTaskPaneButton.Label" DefaultValue="Show Task Pane"/>
         </bt:ShortStrings>
-        <bt:LongStrings>
-          <bt:String id="OpenTaskPaneButton.Label" DefaultValue="Click to show the task pane"/>
-        </bt:LongStrings>
       </Resources>
     </VersionOverride>
   </VersionOverrides>
